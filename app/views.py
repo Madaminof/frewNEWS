@@ -2,37 +2,39 @@ from django.shortcuts import render
 from django.views import View
 from .models import Category,Post
 
-# Create your views here.
-
-
+#Home
 class HomeView(View):
     def get(self, request):
-        return render(request, 'index.html')
+        categories = Category.objects.all()
+        context = {
+            'categories': categories,
+
+        }
+        return render(request, 'index.html',context=context)
 
 
 class CategoriesView(View):
     def get(self, request):
-        categori = Category.objects.all()
+        categories = Category.objects.all()
         post = Post.objects.all()
         context = {
-            'categories': categori,
+            'categories': categories,
             'post': post,
         }
-        return render(request, 'categori.html',context=context)
+        return render(request, 'base.html',context=context)
 
 
-class AboutView(View):
+
+
+
+class PostView(View):
+    def get(self, request, pk):
+        post = Post.objects.filter(category=pk)
+        return render(request, 'categori.html', {'post': post})
+
+
+class DetailsView(View):
     def get(self, request):
-        return render(request, 'about.html')
+        return render(request, 'categori.html')
 
-
-
-class Contact(View):
-    def get(self, request):
-        return render(request, 'contact.html')
-
-
-class LatestNews(View):
-    def get(self, request):
-        return render(request, 'latest_news.html')
 
