@@ -54,6 +54,11 @@
     height: auto;
     width: auto;
 }
+.sticky-logo img {
+        max-height: 70px; /* Hajmni moslang */
+    height: auto;
+    width: auto;
+    }
 
 .header-mid .header-banner {
     margin-left: 20px; /* Rasmlar orasidagi bo'shliq */
@@ -169,6 +174,12 @@
             display: flex;
             align-items: center;
         }
+        select {
+        padding: 10px;
+        font-size: 16px;
+        width: 100%; /* Select elementining kengligini 100% qilib o'rnatish */
+        box-sizing: border-box; /* Padding va borderni kenglik va balandlikka qo'shish */
+    }
 
 
     </style>
@@ -183,8 +194,8 @@
                     <div class="col-xl-12">
                         <div class="row d-flex justify-content-between align-items-center">
                             <div class="header-info-left">
-                               
-                                <select id="province" onchange="getWeather()">
+
+                               <select id="province" onchange="getWeather()">
                                     <option value="Toshkent">Toshkent</option>
                                     <option value="Samarqand">Samarqand</option>
                                     <option value="Buxoro">Buxoro</option>
@@ -246,27 +257,30 @@
                     </div>
                 </div>
             </div>
-            
-            
 
 
-            
+
+
+
             <div class="header-bottom header-sticky">
                 <div class="container">
                     <div class="row align-items-center">
                         <div class="col-xl-10 col-lg-10 col-md-12 header-flex">
                             <div class="sticky-logo">
-                                <a href="{% url 'index' %}"><img src="{% static 'assets/img/logo/logo.png' %}" alt=""></a>
+                                <a href="#"><img src="/media/images/logo2.jpg" alt=""></a>
                             </div>
                             <div class="main-menu d-none d-md-block">
                                 <nav>
                                     <ul id="navigation">
                                         <li><a href="{% url 'index' %}">Home</a></li>
-                                        {% for i in categories %}
-                                            <li><a href="{% url 'post' i.pk %}">{{ i.name }}</a></li>
-                                        {% endfor %}
+                                        <li><a href="{% url 'post' 1 %}">Jahon</a></li>
+                                        <li><a href="{% url 'post' 2 %}">Jamiyat</a></li>
+                                        <li><a href="{% url 'post' 3 %}">Sport</a></li>
+                                        <li><a href="{% url 'post' 4 %}">Fan-Texnika</a></li>
+                                        <li><a href="{% url 'post' 5 %}">Iqtisodiyot</a></li>
                                     </ul>
                                 </nav>
+
                             </div>
                         </div>
                         <div class="col-xl-2 col-lg-2 col-md-4">

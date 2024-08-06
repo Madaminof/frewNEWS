@@ -147,5 +147,3 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'app', 'static'),
 ]
 
-# The directory where collectstatic will collect static files for deployment.
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')

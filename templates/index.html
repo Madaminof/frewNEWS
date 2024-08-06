@@ -17,52 +17,64 @@
 
                 <div class="row">
                     <div class="col-lg-8">
-
-                         <!-- Jahon Top1 -->
-                         <div class="trending-top mb-30">
+                            <!-- Trending Top -->
+                        <div class="trending-top mb-30">
                             <div class="trend-top-img">
-                                <img src="/media/images/jahon.jpeg" alt="">
+                               <img src="{{ detail1.image.url }}" alt="{{ detail1.title }}">
                                 <div class="trend-top-cap">
-                                    <span>Jahon</span>
-                                    <h2><a href="details.html">Welcome To The Best Model Winner<br> Contest At Look of the year</a></h2>
+                                    <span>{{ detail1.category.name }}</span>
+                                    <h2><a href="{% url 'post' detail1.pk %}">{{ detail1.title }}</a></h2>
                                 </div>
                             </div>
                         </div>
-                      
+
                         <!-- Trending Bottom -->
                         <div class="trending-bottom">
                             <div class="row">
                                 <div class="col-lg-4">
-                                <div class="single-bottom mb-35">
-                                    <div class="trend-bottom-img mb-30">
-                                        <img src="/media/images/life.jpeg" alt="">
-                                    </div>
-                                    <div class="trend-bottom-cap">
-                                        <span class="color1">Jamiyat</span>
-                                        <h4><a href="details.html">Get the Illusion of Fuller Lashes by “Mascng.”</a></h4>
-                                    </div>
-                                </div>
-                                </div>
-                                <div class="col-lg-4">
                                     <div class="single-bottom mb-35">
+                                        {% if detail3 %}
                                         <div class="trend-bottom-img mb-30">
-                                            <img src="/media/images/sports.jpeg" alt="">
+                                            <img src="{{ detail2.image.url }}" alt="{{ detail3.title }}">
                                         </div>
                                         <div class="trend-bottom-cap">
-                                            <span class="color2">Sports</span>
-                                            <h4><h4><a href="details.html">Get the Illusion of Fuller Lashes by “Mascng.”</a></h4></h4>
+                                            <span class="color2">{{ detail2.category.name }}</span>
+                                            <h4><a href="{% url 'post' detail2.pk %}">{{ detail2.title }}</a></h4>
                                         </div>
+                                        {% else %}
+                                        <p>No post available for Jamiyat category</p>
+                                        {% endif %}
                                     </div>
                                 </div>
-                                <div class="col-lg-4">
+                               <div class="col-lg-4">
                                     <div class="single-bottom mb-35">
+                                        {% if detail3 %}
                                         <div class="trend-bottom-img mb-30">
-                                            <img src="/media/images/travels.jpeg" alt="">
+                                            <img src="{{ detail3.image.url }}" alt="{{ detail3.title }}">
                                         </div>
                                         <div class="trend-bottom-cap">
-                                            <span class="color3">Fan-Texnika</span>
-                                            <h4><a href="details.html"> Welcome To The Best Model Winner Contest</a></h4>
+                                            <span class="color2">{{ detail3.category.name }}</span>
+                                            <h4><a href="{% url 'post' detail3.pk %}">{{ detail3.title }}</a></h4>
                                         </div>
+                                        {% else %}
+                                        <p>No post available for Sport category</p>
+                                        {% endif %}
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-4">
+                                    <div class="single-bottom mb-35">
+                                        {% if detail4 %}
+                                        <div class="trend-bottom-img mb-30">
+                                            <img src="{{ detail4.image.url }}" alt="{{ detail4.title }}">
+                                        </div>
+                                        <div class="trend-bottom-cap">
+                                            <span class="color2">{{ detail3.category.name }}</span>
+                                            <h4><a href="{% url 'post' detail4.pk %}">{{ detail4.title }}</a></h4>
+                                        </div>
+                                        {% else %}
+                                        <p>No post available for Sport category</p>
+                                        {% endif %}
                                     </div>
                                 </div>
                             </div>
@@ -171,7 +183,7 @@
             </div>
         </div>
     </div>
- </main>
+</main>
 
 {% endblock %}
 
