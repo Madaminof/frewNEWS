@@ -55,6 +55,13 @@ class DetailsView(View):
 
 
 
+class DetailView(View):
+    def get(self, request, pk):
+        post = get_object_or_404(Post, pk=pk)
+        return render(request, 'details.html', {'post': post})
+
+
+
 
 class YoutubeVideoView(View):
     def get(self, request):

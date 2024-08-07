@@ -3,7 +3,31 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
+<style>
+    /* General link styling */
+a {
+    text-decoration: none; /* Removes underline from links */
+    color: inherit; /* Inherits color from parent element, but can be overridden */
+}
+
+/* Styling for the color1 class */
+.color1 {
+    color: #ff5733; /* Adjust this to your desired color */
+    font-weight: bold; /* Makes the text bold */
+}
+
+.color1 a {
+    color: inherit; /* Ensures link color inherits from .color1 */
+}
+
+/* Optional: Styling for color1 class when link is hovered */
+.color1 a:hover {
+    color: #c70039; /* Change to your desired hover color */
+}
+
+</style>
     <main>
+
    <!-- Whats New Start -->
     <section class="whats-news-area pt-50 pb-20">
         <div class="container">
@@ -38,8 +62,8 @@
                                                             <img src="{{ i.image.url }}" alt="">
                                                         </div>
                                                         <div class="what-cap">
-                                                            <span class="color1">{{ i.title }}</span>
-                                                            <h4><a href="#">{{ i.context }}</a></h4>
+                                                            <span class="color1"><a href="{% url 'detail' pk=i.pk %}">{{ i.title }}</a></span>
+                                                            <h4><a href="{% url 'detail' pk=i.pk %}">{{ i.context }}</a></h4>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -52,7 +76,7 @@
                     <!-- End Nav Card -->
                     </div>
                 </div>
-    </section>
+     </section>
     <!-- Whats New End -->
 
         <div class="video-container">

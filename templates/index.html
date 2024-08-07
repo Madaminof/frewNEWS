@@ -145,7 +145,7 @@
                                <img src="{{ detail1.image.url }}" alt="{{ detail1.title }}">
                                 <div class="trend-top-cap">
                                     <span>{{ detail1.category.name }}</span>
-                                    <h2><a href="{% url 'post' detail1.pk %}">{{ detail1.title }}</a></h2>
+                                    <h2><a href="{% url 'detail' pk=detail1.pk %}">{{ detail1.title }}</a></h2>
                                 </div>
                             </div>
                         </div>
@@ -161,7 +161,7 @@
                                         </div>
                                         <div class="trend-bottom-cap">
                                             <span class="color2">{{ detail2.category.name }}</span>
-                                            <h4><a href="{% url 'post' detail2.pk %}">{{ detail2.title }}</a></h4>
+                                            <h4><a href="{% url 'detail' pk=detail2.pk %}">{{ detail2.title }}</a></h4>
                                         </div>
                                         {% else %}
                                         <p>No post available for Jamiyat category</p>
@@ -176,7 +176,7 @@
                                         </div>
                                         <div class="trend-bottom-cap">
                                             <span class="color2">{{ detail3.category.name }}</span>
-                                            <h4><a href="{% url 'post' detail3.pk %}">{{ detail3.title }}</a></h4>
+                                            <h4><a href="{% url 'detail' pk=detail3.pk %}">{{ detail3.title }}</a></h4>
                                         </div>
                                         {% else %}
                                         <p>No post available for Sport category</p>
@@ -192,7 +192,7 @@
                                         </div>
                                         <div class="trend-bottom-cap">
                                             <span class="color2">{{ detail3.category.name }}</span>
-                                            <h4><a href="{% url 'post' detail4.pk %}">{{ detail4.title }}</a></h4>
+                                            <h4><a href="{% url 'detail' pk=detail4.pk %}">{{ detail4.title }}</a></h4>
                                         </div>
                                         {% else %}
                                         <p>No post available for Sport category</p>
