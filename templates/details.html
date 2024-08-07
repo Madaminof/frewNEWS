@@ -2,9 +2,10 @@
 
 {% block title %}Details{% endblock %}
 
+{% block content %}
 
 <style>
-/* General styling for html and body */
+
 html, body {
     height: 100%;
     margin: 0;
@@ -12,136 +13,116 @@ html, body {
     box-sizing: border-box;
 }
 
-/* Container for main content */
-.main-content {
-    min-height: calc(100vh - 60px); /* Adjust based on your footer height */
-    padding-bottom: 60px; /* Adds space for the footer */
-    padding: 20px; /* Adds padding around the main content */
+.trending-top {
+    margin-bottom: 30px; /* Adds space below each trend item */
+    padding: 15px; /* Adds padding around the trend item */
+    border: 1px solid #ddd; /* Adds a light border around the trend item */
+    border-radius: 8px; /* Rounds the corners of the border */
+    background-color: #f9f9f9; /* Sets a light background color */
+    text-align: center; /* Centers the text and image */
+    position: relative; /* Allows positioning of the overlay */
+    overflow: hidden; /* Ensures content stays within bounds */
 }
 
-/* Styling for trend-bottom */
-.trend-bottom {
-    margin-bottom: 30px;
-    padding: 15px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background-color: #f9f9f9;
-    transition: background-color 0.3s ease;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
+/* Styling for the trend-top image container */
+.trend-top-img {
+    position: relative; /* Allows overlay positioning */
+    margin-bottom: 15px; /* Adds space below the image */
 }
 
-/* Styling for the trend-bottom image container */
-.trend-bottom-img {
-    position: relative;
-    margin-bottom: 15px;
-}
-
-/* Styling for images inside trend-bottom */
-.trend-bottom-img img {
+/* Styling for images inside trend-top */
+.trend-top-img img {
     display: block;
-    width: 100%;
-    height: auto;
-    max-width: 800px;
-    margin: 0 auto;
-    border-radius: 8px;
-    border: 5px solid #ddd;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    width: 100%; /* Makes the image take up full width of the container */
+    height: auto; /* Maintains aspect ratio of the image */
+    max-width: 800px; /* Sets a maximum width for the image */
+    margin: 0 auto; /* Centers the image horizontally */
+    border-radius: 8px; /* Rounds the corners of the image */
+    border: 5px solid #ddd; /* Adds a light border around the image */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Adds a subtle shadow for depth */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for border color and shadow */
 }
 
 /* Styling for image on hover */
-.trend-bottom-img img:hover {
-    border-color: #007bff;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+.trend-top-img img:hover {
+    border-color: #007bff; /* Changes the border color on hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Enhances the shadow on hover */
 }
 
-/* Styling for category overlay on image */
-.category-overlay {
-    position: absolute;
-    bottom: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: rgba(0, 0, 0, 0.7);
-    color: #fff;
-    padding: 10px 20px;
-    border-radius: 5px;
-    font-weight: bold;
-    font-size: 16px;
+/* Styling for trend-top caption */
+.trend-top-cap {
+    position: absolute; /* Allows overlay positioning */
+    bottom: 20px; /* Position from the bottom of the image */
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%); /* Center the overlay */
+    background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+    color: #fff; /* White text color */
+    padding: 10px 20px; /* Padding around the text */
+    border-radius: 5px; /* Rounded corners for the overlay */
+    text-align: left; /* Aligns text to the left */
+    width: 90%; /* Sets the width of the overlay */
+    box-sizing: border-box; /* Ensures padding does not increase the width */
 }
 
-/* Styling for the text below the image */
-.trend-bottom-cap {
-    margin-top: 15px;
+/* Styling for the category span */
+.trend-top-cap span {
+    display: block; /* Makes the span take up full width */
+    font-weight: bold; /* Makes the text bold */
+    margin-bottom: 10px; /* Adds space below the category */
+    font-size: 16px; /* Sets a font size for the overlay text */
+    text-align:center
 }
 
 /* Styling for the title */
-.trend-bottom-cap h4 {
-    font-size: 24px;
-    margin: 0;
-    margin-bottom: 5px;
+.trend-top-cap h2 {
+    font-size: 24px; /* Sets the font size for the title */
+    margin: 0; /* Removes default margin */
+    margin-bottom: 5px; /* Adds space below the title */
+    text-align:center
 }
 
 /* Styling for title links */
-.trend-bottom-cap h4 a {
-    text-decoration: none;
-    color: #333;
-    font-weight: bold;
+.trend-top-cap h2 a {
+    text-decoration: none; /* Removes underline from links */
+    color: #fff; /* Sets the color for the title link */
+    font-weight: bold; /* Makes the title link bold */
+    text-align:center
 }
 
 /* Styling for title links on hover */
-.trend-bottom-cap h4 a:hover {
-    color: #007bff;
+.trend-top-cap h2 a:hover {
+    color: #007bff; /* Changes the color of the title link on hover */
 }
 
 /* Styling for the content */
-.trend-bottom-cap h6 {
-    font-size: 18px;
-    margin: 0;
-    color: #666;
+.trend-top-cap h5 {
+    font-size: 18px; /* Sets the font size for the content */
+    margin: 0; /* Removes default margin */
+    color: #ddd; /* Sets a lighter color for the content */
+    text-align:center
 }
 
 /* Styling for content links */
-.trend-bottom-cap h6 a {
-    text-decoration: none;
-    color: #666;
+.trend-top-cap h5 a {
+    text-decoration: none; /* Removes underline from links */
+    color: #ddd; /* Sets the color for the content link */
 }
 
 /* Styling for content links on hover */
-.trend-bottom-cap h6 a:hover {
-    color: #007bff;
+.trend-top-cap h5 a:hover {
+    color: #007bff; /* Changes the color of the content link on hover */
 }
-
-/* Styling for the fixed footer */
-footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 60px; /* Adjust based on your footer height */
-    background-color: #333;
-    color: #fff;
-    text-align: center;
-    line-height: 60px;
-}
-
-
-</style>
-{% block content %}
-<style>
 
 </style>
 
-<div class="main-content">
-    <div class="trend-bottom">
-        <div class="trend-bottom-img">
-            <img src="{{ post.image.url }}" alt="{{ post.title }}">
-            <span class="category-overlay">{{ post.category.name }}</span>
-        </div>
-        <div class="trend-bottom-cap">
-            <h4><a href="#">{{ post.title }}</a></h4>
-            <h6><a href="#">{{ post.content }}</a></h6>
+
+<div class="trending-top mb-30">
+    <div class="trend-top-img">
+        <img src="{{ post.image.url }}" alt="{{ post.title }}">
+        <div class="trend-top-cap">
+            <span>{{ post.category.name }}</span>
+            <h2><a href="{% url 'detail' pk=post.pk %}">{{ post.title }}</a></h2>
+            <h5><a href="{% url 'detail' pk=post.pk %}">{{ post.content }}</a></h5>
         </div>
     </div>
 </div>

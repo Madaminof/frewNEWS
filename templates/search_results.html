@@ -1,0 +1,149 @@
+{% extends "base.html" %}
+
+{% block title %}Search Results{% endblock %}
+
+{% block content %}
+<style>
+    /* Ensures the body and html take up full height */
+    html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    /* Container for search results */
+    .container {
+        width: 90%;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    /* Styling for search results header */
+    .container h2 {
+        text-align: center;
+        margin-bottom: 30px;
+        font-size: 28px;
+        color: #333;
+    }
+
+    /* Styling for result list */
+    .container ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    /* Styling for each search result item */
+    .single-what-news {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 30px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        overflow: hidden;
+        background-color: #fff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: box-shadow 0.3s ease;
+    }
+
+    .single-what-news:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .what-img img {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+
+    .what-cap {
+        padding: 15px;
+        text-align: center;
+    }
+
+    .what-cap span {
+        display: block;
+        font-size: 18px;
+        color: #007bff;
+        margin-bottom: 10px;
+    }
+
+    .what-cap h4 {
+        font-size: 16px;
+        color: #666;
+        margin: 0;
+    }
+
+    .what-cap a {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    .what-cap a:hover {
+        color: #007bff;
+    }
+
+    /* Responsive styling */
+    @media (min-width: 576px) {
+        .col-md-6 {
+            flex: 0 0 50%;
+            max-width: 50%;
+        }
+    }
+
+    @media (min-width: 768px) {
+        .col-lg-6 {
+            flex: 0 0 50%;
+            max-width: 50%;
+        }
+    }
+
+    @media (min-width: 992px) {
+        .col-lg-6 {
+            flex: 0 0 50%;
+            max-width: 50%;
+        }
+
+        .single-what-news {
+            flex-direction: row;
+        }
+
+        .what-img {
+            width: 50%;
+        }
+
+        .what-cap {
+            width: 50%;
+            padding: 20px;
+            text-align: left;
+        }
+    }
+</style>
+
+<div class="container">
+    <h2>Search Results for "{{ query }}"</h2>
+    {% if results %}
+        <ul>
+            {% for i in results %}
+                <li>
+                    <div class="col-lg-6 col-md-6">
+                        <div class="single-what-news mb-100">
+                            <div class="what-img">
+                                <img src="{{ i.image.url }}" alt="">
+                            </div>
+                            <div class="what-cap">
+                                <span class="color1"><a href="{% url 'detail' pk=i.pk %}">{{ i.title }}</a></span>
+                                <h4><a href="{% url 'detail' pk=i.pk %}">{{ i.content }}</a></h4>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No results found.</p>
+    {% endif %}
+</div>
+
+{% endblock %}

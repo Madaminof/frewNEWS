@@ -395,12 +395,13 @@
                             <div class="header-right-btn f-right d-none d-lg-block">
                                 <i class="fas fa-search special-tag"></i>
                                 <div class="search-box">
-                                    <form action="#">
-                                        <input type="text" placeholder="Search">
+                                    <form action="{% url 'search' %}" method="get">
+                                        <input type="text" name="q" placeholder="Search">
                                     </form>
                                 </div>
                             </div>
                         </div>
+
                         <div class="col-12">
                             <div class="mobile_menu d-block d-md-none"></div>
                         </div>

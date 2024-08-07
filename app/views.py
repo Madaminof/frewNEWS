@@ -1,6 +1,8 @@
 from django.shortcuts import render, get_object_or_404
 from django.views import View
-from .models import Category, Post, YoutubeVideo
+from .models import Category, Post
+from django.db.models import Q
+
 
 
 #Home
@@ -75,3 +77,17 @@ def api_videos(request):
     videos = YoutubeVideo.objects.all()
     video_list = list(videos.values('name', 'link'))
     return JsonResponse(video_list, safe=False)
+
+
+
+
+
+# Search
+def search(request):
+    query = request.GET.get('q')
+    results = []
+    if query:
+        results = Post.objects.filter(
+            Q(title__icontains=query) | Q(content__icontains=query)
+        )
+    return render(request, 'search_results.html', {'results': results, 'query': query})
