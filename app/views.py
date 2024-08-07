@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.views import View
-from .models import Category,Post
+from .models import Category, Post, YoutubeVideo
+
 
 #Home
 class HomeView(View):
@@ -53,3 +54,17 @@ class DetailsView(View):
         return render(request, 'categori.html')
 
 
+
+
+class YoutubeVideoView(View):
+    def get(self, request):
+        vid = YoutubeVideo.objects.all()
+        return render(request, 'index.html', {'videos': vid})
+
+
+from django.http import JsonResponse
+from .models import YoutubeVideo
+def api_videos(request):
+    videos = YoutubeVideo.objects.all()
+    video_list = list(videos.values('name', 'link'))
+    return JsonResponse(video_list, safe=False)

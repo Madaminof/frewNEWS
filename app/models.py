@@ -31,6 +31,13 @@ class Reklama(models.Model):
         return self.title
 
 
+class YoutubeVideo(models.Model):
+    name = models.CharField(max_length=200)
+    link = models.URLField(max_length=500)
+
+    def __str__(self):
+        return self.name
+
 
 
 

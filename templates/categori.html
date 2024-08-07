@@ -52,9 +52,107 @@
                     <!-- End Nav Card -->
                     </div>
                 </div>
-
     </section>
     <!-- Whats New End -->
+
+        <div class="video-container">
+        <button class="arrow arrow-left" id="prev-arrow">&#9664;</button>
+        <button class="arrow arrow-right" id="next-arrow">&#9654;</button>
+        <div class="main-video">
+            <iframe id="main-video" src="" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="thumbnail-container" id="thumbnail-container">
+            <!-- Thumbnail videos will be added here -->
+        </div>
+        <div class="video-info">
+            <h4 id="video-title">Select a video</h4>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('/api/videos/')
+                .then(response => response.json())
+                .then(data => {
+                    const mainVideo = document.getElementById('main-video');
+                    const thumbnailContainer = document.getElementById('thumbnail-container');
+                    const videoTitle = document.getElementById('video-title');
+                    const prevArrow = document.getElementById('prev-arrow');
+                    const nextArrow = document.getElementById('next-arrow');
+
+                    let currentIndex = 0;
+
+                    function updateMainVideo(index) {
+                        if (data.length > 0) {
+                            const video = data[index];
+                            const videoId = new URL(video.link).searchParams.get('v') || video.link.split('embed/')[1];
+                            mainVideo.src = `https://www.youtube.com/embed/${videoId}`;
+                            videoTitle.textContent = video.name;
+                        }
+                    }
+
+                    function updateThumbnails() {
+                        thumbnailContainer.innerHTML = ''; // Clear existing thumbnails
+
+                        data.forEach((video, index) => {
+                            const videoId = new URL(video.link).searchParams.get('v') || video.link.split('embed/')[1];
+                            if (videoId) {
+                                const thumbnailDiv = document.createElement('div');
+                                thumbnailDiv.className = 'thumbnail';
+                                thumbnailDiv.onclick = () => {
+                                    currentIndex = index;
+                                    updateMainVideo(currentIndex);
+                                };
+
+                                const thumbnailImage = document.createElement('img');
+                                thumbnailImage.src = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
+
+                                const nameDiv = document.createElement('div');
+                                nameDiv.className = 'thumbnail-name';
+                                nameDiv.textContent = video.name;
+
+                                thumbnailDiv.appendChild(thumbnailImage);
+                                thumbnailDiv.appendChild(nameDiv);
+                                thumbnailContainer.appendChild(thumbnailDiv);
+                            }
+                        });
+
+                        // Highlight the current thumbnail
+                        if (thumbnailContainer.children.length > 0) {
+                            thumbnailContainer.children[currentIndex].scrollIntoView({ behavior: 'smooth', inline: 'center' });
+                        }
+                    }
+
+                    // Show the first video by default
+                    if (data.length > 0) {
+                        updateMainVideo(currentIndex);
+                        updateThumbnails();
+                    }
+
+                    prevArrow.onclick = () => {
+                        if (currentIndex > 0) {
+                            currentIndex--;
+                            updateMainVideo(currentIndex);
+                            thumbnailContainer.children[currentIndex].scrollIntoView({ behavior: 'smooth', inline: 'center' });
+                        }
+                    };
+
+                    nextArrow.onclick = () => {
+                        if (currentIndex < data.length - 1) {
+                            currentIndex++;
+                            updateMainVideo(currentIndex);
+                            thumbnailContainer.children[currentIndex].scrollIntoView({ behavior: 'smooth', inline: 'center' });
+                        }
+                    };
+                })
+                .catch(error => {
+                    console.error('Error fetching videos:', error);
+                });
+        });
+    </script>
+
+
+
 
 
     <!--Start pagination -->
