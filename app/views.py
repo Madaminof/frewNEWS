@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.views import View
-from .models import Category, Post
+from .models import Category, Post,LatestNews
 from django.db.models import Q
 
 
@@ -20,6 +20,17 @@ class HomeView(View):
         a5 = get_object_or_404(Category, name='Iqtisodiyot')
         detail5 = Post.objects.filter(category=a5).order_by('-created_at').first()
 
+        b1 = get_object_or_404(Category, name='Jahon')
+        latestnew1 = LatestNews.objects.filter(category=b1).order_by('-date').first()
+        b2 = get_object_or_404(Category, name='Jamiyat')
+        latestnew2 = LatestNews.objects.filter(category=b2).order_by('-date').first()
+        b3 = get_object_or_404(Category, name='Sport')
+        latestnew3 = LatestNews.objects.filter(category=b3).order_by('-date').first()
+        b4 = get_object_or_404(Category, name='Fan-Texnika')
+        latestnew4 = LatestNews.objects.filter(category=b4).order_by('-date').first()
+        b5 = get_object_or_404(Category, name='Iqtisodiyot')
+        latestnew5 = LatestNews.objects.filter(category=b5).order_by('-date').first()
+
         context = {
             'categories': categories,
             'detail1': detail1,
@@ -27,6 +38,15 @@ class HomeView(View):
             'detail3': detail3,
             'detail4': detail4,
             'detail5': detail5,
+
+            'latestnew1':latestnew1,
+            'latestnew2': latestnew2,
+            'latestnew3': latestnew3,
+            'latestnew4': latestnew4,
+            'latestnew5': latestnew5,
+
+
+
         }
         return render(request, 'index.html', context=context)
 

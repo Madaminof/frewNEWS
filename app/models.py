@@ -32,6 +32,7 @@ class Reklama(models.Model):
 
 
 class YoutubeVideo(models.Model):
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
     name = models.CharField(max_length=200)
     link = models.URLField(max_length=500)
 
@@ -40,7 +41,15 @@ class YoutubeVideo(models.Model):
 
 
 
+class LatestNews(models.Model):
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    title = models.CharField(max_length=100)
+    content = models.TextField()
+    image = models.ImageField(upload_to='latest_news/', blank=True, null=True)
+    date = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return self.title
 
 
 

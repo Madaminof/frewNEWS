@@ -128,8 +128,185 @@
         .arrow-right {
             right: 10px;
         }
+
+
+
+
+
+        .carousel-item {
+            position: relative;
+            width: 100%;
+            height: 420px; /* Kerakli balandlikni sozlash */
+
+        }
+
+        .carousel-item img,
+        .carousel-item video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+
+        }
+
+        .play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 10px 20px;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            z-index: 10; /* Tugmani yuqorida ko'rsatish uchun */
+
+        }
+
+        .carousel-control-prev,
+        .carousel-control-next {
+            width: 5%;
+        }
+
+        .carousel-control-prev-icon,
+        .carousel-control-next-icon {
+            background-color: rgba(0, 0, 0, 0.5);
+
+        }
+
+
+        .carousel-item {
+        position: relative;
+        width: 100%;
+        height: 400px;
+        overflow: hidden;
+
+    }
+
+    .carousel-item img,
+    .carousel-item video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        .new-carousel-inner1 {
+    position: relative;
+    width: 100%;
+    height: 200px; /* Sizning kerakli balandlik */
+    overflow: hidden;
+    border-radius:7px;
+}
+
+.new-carousel-item1 {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.new-carousel-item1 img,
+.new-carousel-item1 video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* To'liq qamrab olish */
+}
+
+.new-play-button1 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 10px 20px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.new-carousel-control-prev1,
+.new-carousel-control-next1 {
+    width: 5%;
+}
+
+.new-carousel-control-prev-icon1,
+.new-carousel-control-next-icon1 {
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+}
+
+
+
+
+
+
+        .new-carousel-inner1 {
+    position: relative;
+    width: 100%;
+    height: 200px; /* Sizning kerakli balandlik */
+    overflow: hidden;
+}
+
+.new-carousel-item1 {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.new-carousel-item1 img,
+.new-carousel-item1 video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* To'liq qamrab olish */
+}
+
+.new-play-button1 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 10px 20px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+    width: 5%;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+}
+
+
+
     </style>
-    
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+      <!-- Bootstrap CSS -->
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
 
     <!-- Trending Area Start -->
   <div class="trending-area fix">
@@ -142,11 +319,40 @@
                             <!-- Trending Top -->
                         <div class="trending-top mb-30">
                             <div class="trend-top-img">
-                               <img src="{{ detail1.image.url }}" alt="{{ detail1.title }}">
+                                <div id="mediaCarousel" class="carousel slide" data-ride="carousel">
+                                    <div class="carousel-inner">
+                                        {% if detail1.image %}
+                                        <div class="carousel-item active">
+                                            <img src="{{ detail1.image.url }}" class="d-block w-100" alt="{{ detail1.title }}">
+                                        </div>
+                                        {% endif %}
+                                        {% if detail1.video %}
+                                        <div class="carousel-item {% if not detail1.image %}active{% endif %}">
+                                            <video class="d-block w-100" controls>
+                                                <source src="{{ detail1.video.url }}" type="video/mp4">
+                                            </video>
+                                            <button class="play-button">Play Video</button>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                    <a class="carousel-control-prev" href="#mediaCarousel" role="button" data-slide="prev">
+                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                        <span class="sr-only">Previous</span>
+                                    </a>
+                                    <a class="carousel-control-next" href="#mediaCarousel" role="button" data-slide="next">
+                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                        <span class="sr-only">Next</span>
+                                    </a>
+                                </div>
                                 <div class="trend-top-cap">
                                     <span>{{ detail1.category.name }}</span>
-                                    <h2><a href="{% url 'detail' pk=detail1.pk %}">{{ detail1.title }}</a></h2>
+                                    <h2>
+                                        <a href="{% url 'detail' pk=detail1.pk %}" class="no-underline">
+                                            {{ detail1.title }}
+                                        </a>
+                                    </h2>
                                 </div>
+
                             </div>
                         </div>
 
@@ -154,99 +360,153 @@
                         <div class="trending-bottom">
                             <div class="row">
                                 <div class="col-lg-4">
-                                    <div class="single-bottom mb-35">
-                                        {% if detail3 %}
-                                        <div class="trend-bottom-img mb-30">
-                                            <img src="{{ detail2.image.url }}" alt="{{ detail3.title }}">
+                                    <div class="new-single-bottom mb-35">
+                                        <div id="newMediaCarousel1" class="carousel slide" data-ride="carousel">
+                                            <div class="carousel-inner new-carousel-inner1">
+                                                {% if detail2.image %}
+                                                <div class="carousel-item new-carousel-item1 active">
+                                                    <img src="{{ detail2.image.url }}" class="d-block w-100" alt="{{ detail2.title }}">
+                                                </div>
+                                                {% endif %}
+                                                {% if detail2.video %}
+                                                <div class="carousel-item new-carousel-item1 {% if not detail2.image %}active{% endif %}">
+                                                    <video class="d-block w-100" controls>
+                                                        <source src="{{ detail2.video.url }}" type="video/mp4">
+                                                    </video>
+                                                    <button class="new-play-button1">Play Video</button>
+                                                </div>
+                                                {% endif %}
+                                            </div>
+                                            <a class="carousel-control-prev new-carousel-control-prev1" href="#newMediaCarousel1" role="button" data-slide="prev">
+                                                <span class="carousel-control-prev-icon new-carousel-control-prev-icon1" aria-hidden="true"></span>
+                                                <span class="sr-only">Previous</span>
+                                            </a>
+                                            <a class="carousel-control-next new-carousel-control-next1" href="#newMediaCarousel1" role="button" data-slide="next">
+                                                <span class="carousel-control-next-icon new-carousel-control-next-icon1" aria-hidden="true"></span>
+                                                <span class="sr-only">Next</span>
+                                            </a>
                                         </div>
-                                        <div class="trend-bottom-cap">
+                                        <div class="new-trend-bottom-cap">
                                             <span class="color2">{{ detail2.category.name }}</span>
                                             <h4><a href="{% url 'detail' pk=detail2.pk %}">{{ detail2.title }}</a></h4>
                                         </div>
-                                        {% else %}
-                                        <p>No post available for Jamiyat category</p>
-                                        {% endif %}
-                                    </div>
-                                </div>
-                               <div class="col-lg-4">
-                                    <div class="single-bottom mb-35">
-                                        {% if detail3 %}
-                                        <div class="trend-bottom-img mb-30">
-                                            <img src="{{ detail3.image.url }}" alt="{{ detail3.title }}">
-                                        </div>
-                                        <div class="trend-bottom-cap">
-                                            <span class="color2">{{ detail3.category.name }}</span>
-                                            <h4><a href="{% url 'detail' pk=detail3.pk %}">{{ detail3.title }}</a></h4>
-                                        </div>
-                                        {% else %}
-                                        <p>No post available for Sport category</p>
-                                        {% endif %}
                                     </div>
                                 </div>
 
                                 <div class="col-lg-4">
-                                    <div class="single-bottom mb-35">
-                                        {% if detail4 %}
-                                        <div class="trend-bottom-img mb-30">
-                                            <img src="{{ detail4.image.url }}" alt="{{ detail4.title }}">
+                                    <div class="new-single-bottom mb-35">
+                                        <div id="newMediaCarousel2" class="carousel slide" data-ride="carousel">
+                                            <div class="carousel-inner new-carousel-inner1">
+                                                {% if detail3.image %}
+                                                <div class="carousel-item new-carousel-item1 active">
+                                                    <img src="{{ detail3.image.url }}" class="d-block w-100" alt="{{ detail3.title }}">
+                                                </div>
+                                                {% endif %}
+                                                {% if detail3.video %}
+                                                <div class="carousel-item new-carousel-item1 {% if not detail3.image %}active{% endif %}">
+                                                    <video class="d-block w-100" controls>
+                                                        <source src="{{ detail3.video.url }}" type="video/mp4">
+                                                    </video>
+                                                    <button class="new-play-button1">Play Video</button>
+                                                </div>
+                                                {% endif %}
+                                            </div>
+                                            <a class="carousel-control-prev new-carousel-control-prev2" href="#newMediaCarousel2" role="button" data-slide="prev">
+                                                <span class="carousel-control-prev-icon new-carousel-control-prev-icon2" aria-hidden="true"></span>
+                                                <span class="sr-only">Previous</span>
+                                            </a>
+                                            <a class="carousel-control-next new-carousel-control-next2" href="#newMediaCarousel2" role="button" data-slide="next">
+                                                <span class="carousel-control-next-icon new-carousel-control-next-icon2" aria-hidden="true"></span>
+                                                <span class="sr-only">Next</span>
+                                            </a>
                                         </div>
-                                        <div class="trend-bottom-cap">
+                                        <div class="new-trend-bottom-cap">
                                             <span class="color2">{{ detail3.category.name }}</span>
-                                            <h4><a href="{% url 'detail' pk=detail4.pk %}">{{ detail4.title }}</a></h4>
+                                            <h4><a href="{% url 'detail' pk=detail3.pk %}">{{ detail3.title }}</a></h4>
                                         </div>
-                                        {% else %}
-                                        <p>No post available for Sport category</p>
-                                        {% endif %}
                                     </div>
                                 </div>
+
+                                <div class="col-lg-4">
+                                    <div class="new-single-bottom mb-35">
+                                        <div id="newMediaCarousel3" class="carousel slide" data-ride="carousel">
+                                            <div class="carousel-inner new-carousel-inner1">
+                                                {% if detail4.image %}
+                                                <div class="carousel-item new-carousel-item1 active">
+                                                    <img src="{{ detail4.image.url }}" class="d-block w-100" alt="{{ detail4.title }}">
+                                                </div>
+                                                {% endif %}
+                                                {% if detail4.video %}
+                                                <div class="carousel-item new-carousel-item1 {% if not detail4.image %}active{% endif %}">
+                                                    <video class="d-block w-100" controls>
+                                                        <source src="{{ detail4.video.url }}" type="video/mp4">
+                                                    </video>
+                                                    <button class="new-play-button1">Play Video</button>
+                                                </div>
+                                                {% endif %}
+                                            </div>
+                                            <a class="carousel-control-prev new-carousel-control-prev3" href="#newMediaCarousel3" role="button" data-slide="prev">
+                                                <span class="carousel-control-prev-icon new-carousel-control-prev-icon3" aria-hidden="true"></span>
+                                                <span class="sr-only">Previous</span>
+                                            </a>
+                                            <a class="carousel-control-next new-carousel-control-next3" href="#newMediaCarousel3" role="button" data-slide="next">
+                                                <span class="carousel-control-next-icon new-carousel-control-next-icon3" aria-hidden="true"></span>
+                                                <span class="sr-only">Next</span>
+                                            </a>
+                                        </div>
+                                        <div class="new-trend-bottom-cap">
+                                            <span class="color2">{{ detail4.category.name }}</span>
+                                            <h4><a href="{% url 'detail' pk=detail4.pk %}">{{ detail4.title }}</a></h4>
+                                        </div>
+                                    </div>
+                                </div>
+
+
                             </div>
                         </div>
                     </div>
+
+
+
                     <!-- Riht content -->
                     <div class="col-lg-4">
+                         <div class="trand-right-single d-flex">
+                                <h2 >So'nggi Yangiliklar</h2>
+                        </div>
+
                         <div class="trand-right-single d-flex">
-                            <div class="trand-right-img">
-                                <img src="assets/img/trending/right1.jpg" alt="">
-                            </div>
                             <div class="trand-right-cap">
-                                <span class="color1">Concert</span>
-                                <h4><a href="details.html">Welcome To The Best Model Winner Contest</a></h4>
+                                <span class="color1">{{latestnew1.category.name}}</span>
+                                <h4><a href="details.html">{{ latestnew1.title }}</a></h4>
+                                <p>{{ latestnew1.date }}</p>
                             </div>
                         </div>
                         <div class="trand-right-single d-flex">
-                            <div class="trand-right-img">
-                                <img src="assets/img/trending/right2.jpg" alt="">
-                            </div>
                             <div class="trand-right-cap">
-                                <span class="color3">sea beach</span>
-                                <h4><a href="details.html">Welcome To The Best Model Winner Contest</a></h4>
+                                <span class="color1">{{latestnew2.category.name}}</span>
+                                <h4><a href="details.html">{{ latestnew2.title }}</a></h4>
+                                <p>{{ latestnew2.date }}</p>
                             </div>
                         </div>
                         <div class="trand-right-single d-flex">
-                            <div class="trand-right-img">
-                                <img src="assets/img/trending/right3.jpg" alt="">
-                            </div>
                             <div class="trand-right-cap">
-                                <span class="color2">Bike Show</span>
-                                <h4><a href="details.html">Welcome To The Best Model Winner Contest</a></h4>
+                                <span class="color1">{{latestnew3.category.name}}</span>
+                                <h4><a href="details.html">{{ latestnew3.title }}</a></h4>
+                                <p>{{ latestnew3.date }}</p>
                             </div>
                         </div>
                         <div class="trand-right-single d-flex">
-                            <div class="trand-right-img">
-                                <img src="assets/img/trending/right4.jpg" alt="">
-                            </div>
                             <div class="trand-right-cap">
-                                <span class="color4">See beach</span>
-                                <h4><a href="details.html">Welcome To The Best Model Winner Contest</a></h4>
+                                <span class="color1">{{latestnew4.category.name}}</span>
+                                <h4><a href="details.html">{{ latestnew4.title }}</a></h4>
+                                <p>{{ latestnew4.date }}</p>
                             </div>
                         </div>
                         <div class="trand-right-single d-flex">
-                            <div class="trand-right-img">
-                                <img src="assets/img/trending/right5.jpg" alt="">
-                            </div>
                             <div class="trand-right-cap">
-                                <span class="color1">Skeping</span>
-                                <h4><a href="details.html">Welcome To The Best Model Winner Contest</a></h4>
+                                <span class="color1">{{latestnew5.category.name}}</span>
+                                <h4><a href="details.html">{{ latestnew5.title }}</a></h4>
+                                <p>{{ latestnew5.date }}</p>
                             </div>
                         </div>
                     </div>
@@ -349,6 +609,18 @@
                     console.error('Error fetching videos:', error);
                 });
         });
+
+
+        document.addEventListener("DOMContentLoaded", function() {
+        const playButtons = document.querySelectorAll('.play-button');
+        playButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const videoElement = button.previousElementSibling;
+                videoElement.play();
+                button.style.display = 'none';
+            });
+        });
+    });
     </script>
 
     <!--Recent Articles End -->
@@ -373,6 +645,17 @@
             </div>
         </div>
     </div>
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+
+
 </main>
 
 {% endblock %}
