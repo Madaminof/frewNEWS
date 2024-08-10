@@ -2,13 +2,16 @@ from django.shortcuts import render, get_object_or_404
 from django.views import View
 from .models import Category, Post,LatestNews
 from django.db.models import Q
-
+from django.http import JsonResponse
+from .models import YoutubeVideo,VideoView
 
 
 #Home
 class HomeView(View):
     def get(self, request):
         categories = Category.objects.all()
+        posts = Post.objects.all()
+        videos = VideoView.objects.all()
         a1 = get_object_or_404(Category, name='Jahon')
         detail1 = Post.objects.filter(category=a1).order_by('-created_at').first()
         a2 = get_object_or_404(Category, name='Jamiyat')
@@ -33,6 +36,9 @@ class HomeView(View):
 
         context = {
             'categories': categories,
+            'posts': posts,
+            'videos': videos,
+
             'detail1': detail1,
             'detail2': detail2,
             'detail3': detail3,
@@ -67,8 +73,10 @@ class CategoriesView(View):
 
 class PostView(View):
     def get(self, request, pk):
-        post = Post.objects.filter(category=pk)
-        return render(request, 'categori.html', {'post': post})
+        category = Category.objects.get(pk=pk)
+        post = Post.objects.filter(category=pk).order_by('-created_at')
+
+        return render(request, 'categori.html', {'post': post, 'category': category,'category_id': pk})
 
 
 class DetailsView(View):
@@ -76,27 +84,32 @@ class DetailsView(View):
         return render(request, 'categori.html')
 
 
+class LatestNewsDetails(View):
+    def get(self, request, pk):
+        latest_news = LatestNews.objects.get(pk=pk)
+        related_latest= LatestNews.objects.filter(category=latest_news.category_id).exclude(pk=pk)
+
+        context = {
+            'latest_news': latest_news,
+            'related_latest':related_latest
+        }
+        return render(request, 'yangilik_detail.html',context=context)
+
+
 
 class DetailView(View):
     def get(self, request, pk):
         post = get_object_or_404(Post, pk=pk)
-        return render(request, 'details.html', {'post': post})
+        related_posts = Post.objects.filter(category=post.category_id).exclude(pk=pk)
+
+
+        return render(request, 'details.html', {'post': post, 'related_posts': related_posts})
 
 
 
-
-class YoutubeVideoView(View):
-    def get(self, request):
-        vid = YoutubeVideo.objects.all()
-        return render(request, 'index.html', {'videos': vid})
-
-
-from django.http import JsonResponse
-from .models import YoutubeVideo
-def api_videos(request):
-    videos = YoutubeVideo.objects.all()
-    video_list = list(videos.values('name', 'link'))
-    return JsonResponse(video_list, safe=False)
+def youtube_videos(request):
+    videos = YoutubeVideo.objects.all().values('name', 'link')
+    return JsonResponse(list(videos), safe=False)
 
 
 

@@ -16,10 +16,20 @@ class Post(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='images/', blank=True, null=True)
-    video = models.FileField(upload_to='videos/', blank=True, null=True)
 
     def __str__(self):
         return self.title
+
+
+class VideoView(models.Model):
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    title = models.CharField(max_length=200)
+    video = models.FileField(upload_to='videos/', blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
+
 
 
 class Reklama(models.Model):
@@ -37,7 +47,7 @@ class YoutubeVideo(models.Model):
     link = models.URLField(max_length=500)
 
     def __str__(self):
-        return self.name
+        return f"{self.category.name}-{self.name}"
 
 
 

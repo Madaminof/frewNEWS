@@ -3,7 +3,7 @@ from django.conf.urls.static import static
 from django.urls import path
 
 from . import views
-from .views import HomeView, CategoriesView, DetailsView, PostView, YoutubeVideoView, api_videos,DetailView
+from .views import HomeView, CategoriesView, DetailsView, PostView, youtube_videos,DetailView,LatestNewsDetails
 
 urlpatterns = [
     path('', HomeView.as_view(), name='index'),
@@ -11,10 +11,12 @@ urlpatterns = [
     path('details/', DetailsView.as_view(), name='details'),
     path('post/<int:pk>', PostView.as_view(), name='post'),
 
-    path('videos/', YoutubeVideoView.as_view(), name='video_list'),
-    path('api/videos/', api_videos, name='api_videos'),
+
+    path('api/videos/', youtube_videos, name='api_videos'),
 
     path('detail/<int:pk>',DetailView.as_view() , name='detail'),
+    path('latestnew/<int:pk>', LatestNewsDetails.as_view(), name='latestnew'),
+
 
     path('search/', views.search, name='search'),
 

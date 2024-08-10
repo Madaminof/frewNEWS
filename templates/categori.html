@@ -4,200 +4,197 @@
 
 {% block content %}
 <style>
-    /* General link styling */
-a {
-    text-decoration: none; /* Removes underline from links */
-    color: inherit; /* Inherits color from parent element, but can be overridden */
+
+
+    a {
+        text-decoration: none; /* Removes underline from links */
+        color: inherit; /* Inherits color from parent element, but can be overridden */
+    }
+
+    /* Styling for the color1 class */
+    .color1 {
+        color: #ff5733; /* Adjust this to your desired color */
+        font-weight: bold; /* Makes the text bold */
+    }
+
+    .color1 a {
+        color: inherit; /* Ensures link color inherits from .color1 */
+    }
+
+    /* Optional: Styling for color1 class when link is hovered */
+    .color1 a:hover {
+        color: #c70039; /* Change to your desired hover color */
+    }
+    .standard-img {
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+        max-height: 300px;
+    }
+
+    .whats-news-caption .row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+    }
+
+    .single-what-news {
+        margin-bottom: 30px;
+        display: none; /* Dastlab postlar yashirilgan */
+        padding: 20px 0;
+    }
+
+    @media (min-width: 992px) {
+        .single-what-news {
+            flex: 0 0 32%;
+            max-width: 32%;
+        }
+    }
+
+    @media (max-width: 991px) {
+        .single-what-news {
+            flex: 0 0 48%;
+            max-width: 48%;
+        }
+    }
+
+    @media (max-width: 767px) {
+        .single-what-news {
+            flex: 0 0 100%;
+            max-width: 100%;
+        }
+    }
+
+    .show-more-btn {
+        margin: 20px auto;
+        display: block;
+        padding: 10px 20px;
+        background-color: #ff5733;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .show-more-btn:hover {
+        background-color: #c70039;
+    }
+
+
+
+    .small-time {
+    font-size: 10px; /* Vaqt uchun kichik hajm */
+    color: #666; /* Kichikroq rang (ixtiyoriy) */
 }
 
-/* Styling for the color1 class */
-.color1 {
-    color: #ff5733; /* Adjust this to your desired color */
-    font-weight: bold; /* Makes the text bold */
-}
-
-.color1 a {
-    color: inherit; /* Ensures link color inherits from .color1 */
-}
-
-/* Optional: Styling for color1 class when link is hovered */
-.color1 a:hover {
-    color: #c70039; /* Change to your desired hover color */
+.normal-time {
+    font-size: 12px; /* Sana va vaqt uchun odatiy hajm */
+    color: #333; /* Oddiy rang (ixtiyoriy) */
 }
 
 </style>
-    <main>
 
-   <!-- Whats New Start -->
+<main>
+    <!-- Whats New Start -->
     <section class="whats-news-area pt-50 pb-20">
-        <div class="container">
-            <div class="row">
-            <div class="col-lg-8">
-                <div class="row d-flex justify-content-between">
-                    <div class="col-lg-3 col-md-3">
-                        <div class="section-tittle mb-30">
-                            <h3>Whats New</h3>
-                        </div>
-                    </div>
-                    <div class="col-lg-9 col-md-9">
-                        <div class="properties__button">
-                            <!--Nav Button  -->
-
-                            <!--End Nav Button  -->
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-12">
-                        <!-- Nav Card -->
-                        <div class="tab-content" id="nav-tabContent">
-                            <!-- card one -->
-                            <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-                                <div class="whats-news-caption">
-                                    <div class="row">
-                                        {% for i in post %}
-                                                <div class="col-lg-6 col-md-6">
-                                                    <div class="single-what-news mb-100">
-                                                        <div class="what-img">
-                                                            <img src="{{ i.image.url }}" alt="">
-                                                        </div>
-                                                        <div class="what-cap">
-                                                            <span class="color1"><a href="{% url 'detail' pk=i.pk %}">{{ i.title }}</a></span>
-                                                            <h4><a href="{% url 'detail' pk=i.pk %}">{{ i.context }}</a></h4>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                        {% endfor %}
-
-                                    </div>
-                                </div>
+        <div class="container section-wrapper">
+            <div class="row whats-news-container">
+                <div class="col-lg-12">
+                    <div class="row d-flex justify-content-between">
+                        <div class="col-lg-3 col-md-3">
+                            <div class="section-tittle mb-30">
+                                <h3>{{ category.name }}</h3>
                             </div>
                         </div>
-                    <!-- End Nav Card -->
+                        <div class="col-lg-9 col-md-9"></div>
                     </div>
-                </div>
-     </section>
-    <!-- Whats New End -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="whats-news-caption">
+                                <div class="row">
+                                    {% for i in post %}
+                                        <div class="col-lg-4 col-md-6 single-what-news">
+                                            <div class="what-img">
+                                                <img src="{{ i.image.url }}" alt="" class="standard-img">
+                                            </div>
+                                            <div class="what-cap">
+                                                <span class="color1"><a href="{% url 'detail' pk=i.pk %}">{{ i.category.name }}</a></span>
+                                                <h6><a href="{% url 'detail' pk=i.pk %}">{{ i.title }}</a></h6>
+                                                {% load tz %}
 
-        <div class="video-container">
-        <button class="arrow arrow-left" id="prev-arrow">&#9664;</button>
-        <button class="arrow arrow-right" id="next-arrow">&#9654;</button>
-        <div class="main-video">
-            <iframe id="main-video" src="" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        </div>
-        <div class="thumbnail-container" id="thumbnail-container">
-            <!-- Thumbnail videos will be added here -->
-        </div>
-        <div class="video-info">
-            <h4 id="video-title">Select a video</h4>
-        </div>
-    </div>
+                                                    <p class="{% if i.created_at > now|date:'Y-m-d H:i:s' %}small-time{% else %}normal-time{% endif %}">
+                                                        {% if i.created_at > now|date:'Y-m-d H:i:s' %}
+                                                            {{ i.created_at|time:"H:i" }} <!-- 1 kundan kam bo'lsa faqat vaqt -->
+                                                        {% else %}
+                                                            {{ i.created_at|date:"Y-m-d H:i" }} <!-- 1 kundan ko'p bo'lsa sana va vaqt -->
+                                                        {% endif %}
+                                                    </p>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            fetch('/api/videos/')
-                .then(response => response.json())
-                .then(data => {
-                    const mainVideo = document.getElementById('main-video');
-                    const thumbnailContainer = document.getElementById('thumbnail-container');
-                    const videoTitle = document.getElementById('video-title');
-                    const prevArrow = document.getElementById('prev-arrow');
-                    const nextArrow = document.getElementById('next-arrow');
-
-                    let currentIndex = 0;
-
-                    function updateMainVideo(index) {
-                        if (data.length > 0) {
-                            const video = data[index];
-                            const videoId = new URL(video.link).searchParams.get('v') || video.link.split('embed/')[1];
-                            mainVideo.src = `https://www.youtube.com/embed/${videoId}`;
-                            videoTitle.textContent = video.name;
-                        }
-                    }
-
-                    function updateThumbnails() {
-                        thumbnailContainer.innerHTML = ''; // Clear existing thumbnails
-
-                        data.forEach((video, index) => {
-                            const videoId = new URL(video.link).searchParams.get('v') || video.link.split('embed/')[1];
-                            if (videoId) {
-                                const thumbnailDiv = document.createElement('div');
-                                thumbnailDiv.className = 'thumbnail';
-                                thumbnailDiv.onclick = () => {
-                                    currentIndex = index;
-                                    updateMainVideo(currentIndex);
-                                };
-
-                                const thumbnailImage = document.createElement('img');
-                                thumbnailImage.src = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
-
-                                const nameDiv = document.createElement('div');
-                                nameDiv.className = 'thumbnail-name';
-                                nameDiv.textContent = video.name;
-
-                                thumbnailDiv.appendChild(thumbnailImage);
-                                thumbnailDiv.appendChild(nameDiv);
-                                thumbnailContainer.appendChild(thumbnailDiv);
-                            }
-                        });
-
-                        // Highlight the current thumbnail
-                        if (thumbnailContainer.children.length > 0) {
-                            thumbnailContainer.children[currentIndex].scrollIntoView({ behavior: 'smooth', inline: 'center' });
-                        }
-                    }
-
-                    // Show the first video by default
-                    if (data.length > 0) {
-                        updateMainVideo(currentIndex);
-                        updateThumbnails();
-                    }
-
-                    prevArrow.onclick = () => {
-                        if (currentIndex > 0) {
-                            currentIndex--;
-                            updateMainVideo(currentIndex);
-                            thumbnailContainer.children[currentIndex].scrollIntoView({ behavior: 'smooth', inline: 'center' });
-                        }
-                    };
-
-                    nextArrow.onclick = () => {
-                        if (currentIndex < data.length - 1) {
-                            currentIndex++;
-                            updateMainVideo(currentIndex);
-                            thumbnailContainer.children[currentIndex].scrollIntoView({ behavior: 'smooth', inline: 'center' });
-                        }
-                    };
-                })
-                .catch(error => {
-                    console.error('Error fetching videos:', error);
-                });
-        });
-    </script>
-
-
-
-
-
-    <!--Start pagination -->
-    <div class="pagination-area pb-45 text-center">
-        <div class="container">
-            <div class="row">
-                <div class="col-xl-12">
-                    <div class="single-wrap d-flex justify-content-center">
-                        <nav aria-label="Page navigation example">
-                            <ul class="pagination justify-content-start">
-                              <li class="page-item"><a class="page-link" href="#"><span class="flaticon-arrow roted"></span></a></li>
-                                <li class="page-item active"><a class="page-link" href="#">01</a></li>
-                                <li class="page-item"><a class="page-link" href="#">02</a></li>
-                                <li class="page-item"><a class="page-link" href="#">03</a></li>
-                              <li class="page-item"><a class="page-link" href="#"><span class="flaticon-arrow right-arrow"></span></a></li>
-                            </ul>
-                          </nav>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <!-- Show more button -->
+                            <br>
+                            <button id="showMoreBtn" class="show-more-btn">Ko'proq ko'rsatish</button><hr>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    </main>
+    </section>
+    <!-- Whats New End -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+</main>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const posts = document.querySelectorAll('.single-what-news');
+        const showMoreBtn = document.getElementById('showMoreBtn');
+        let visibleCount = 12; // Boshlang'ich ko'rinadigan postlar soni
+
+        function showPosts() {
+            posts.forEach((post, index) => {
+                if (index < visibleCount) {
+                    post.style.display = 'block';
+                } else {
+                    post.style.display = 'none';
+                }
+            });
+        }
+
+        // Dastlabki 15 ta postni ko'rsatish
+        showPosts();
+
+        // "Ko'proq ko'rsatish" tugmasi bosilganda
+        showMoreBtn.addEventListener('click', function() {
+        visibleCount = posts.length; // Qolgan barcha postlarni ko'rsatish uchun
+        showPosts();
+
+        // Barcha postlar ko'rsatilgan bo'lsa, tugmani yashirish
+        showMoreBtn.style.display = 'none';
+    });
+    });
+
+
+
+
+
+
+
+</script>
 {% endblock %}
