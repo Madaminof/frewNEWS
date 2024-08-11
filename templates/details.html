@@ -63,6 +63,15 @@
                     </div>
                     <div class="about-prea">
                         <p class="about-pera1 mb-25">{{ post.content }}</p>
+                         {% load tz %}
+                                    <p class="{% if post.created_at > now|date:'Y-m-d H:i:s' %}small-time{% else %}normal-time{% endif %}">
+                                        {% if post.created_at > now|date:'Y-m-d  H:i:s' %}
+                                            {{ post.created_at|time:"H:i" }}
+                                        {% else %}
+                                            {{ post.created_at|date:"Y-m-d H:i" }}
+                                        {% endif %}
+                                    </p>
+
                     </div>
                 </div>
             </div>

@@ -76,7 +76,9 @@ class PostView(View):
         category = Category.objects.get(pk=pk)
         post = Post.objects.filter(category=pk).order_by('-created_at')
 
-        return render(request, 'categori.html', {'post': post, 'category': category,'category_id': pk})
+        video = VideoView.objects.filter(category=category.id).exclude(pk=pk)
+
+        return render(request, 'categori.html', {'post': post, 'category': category,'category_id': pk,'video':video})
 
 
 class DetailsView(View):

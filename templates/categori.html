@@ -3,9 +3,17 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
+
+<!-- Slick Slider CSS -->
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
+
+<!-- jQuery kutubxonasi -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Slick Slider JS -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 <style>
-
-
     a {
         text-decoration: none; /* Removes underline from links */
         color: inherit; /* Inherits color from parent element, but can be overridden */
@@ -93,6 +101,25 @@
     color: #333; /* Oddiy rang (ixtiyoriy) */
 }
 
+
+ .related-post {
+        text-align: center;
+        padding: 10px;
+        box-sizing: border-box;
+    }
+
+    .video-container {
+        width: 100%;
+        height: 300px; /* Ramka hajmini belgilash */
+        overflow: hidden;
+        margin-bottom: 10px;
+    }
+
+    .video-container video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* Video hajmini ramkaga moslash */
+    }
 </style>
 
 <main>
@@ -145,13 +172,50 @@
             </div>
         </div>
     </section>
-    <!-- Whats New End -->
-
-
-
-
-
-
+<!-- Mavzuga oid Videolar -->
+<h2 style="text-align:center">Mavzuga oid Videolar</h2>
+<div class="related-posts-slider">
+    {% for v in video %}
+        <div class="related-post">
+            <div class="video-container">
+                <video controls>
+                    <source src="{{ v.video.url }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            <h4><a href="{% url 'latestnew' pk=v.pk %}">{{ v.title }}</a></h4>
+        </div>
+    {% endfor %}
+</div>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('.related-posts-slider').slick({
+            dots: true,
+            infinite: true,
+            speed: 300,
+            slidesToShow: 3,
+            slidesToScroll: 1,
+            responsive: [
+                {
+                    breakpoint: 1024,
+                    settings: {
+                        slidesToShow: 2,
+                        slidesToScroll: 2,
+                        infinite: true,
+                        dots: true
+                    }
+                },
+                {
+                    breakpoint: 600,
+                    settings: {
+                        slidesToShow: 1,
+                        slidesToScroll: 1
+                    }
+                }
+            ]
+        });
+    });
+</script>
 
 
 

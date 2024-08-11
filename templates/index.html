@@ -17,6 +17,67 @@
     font-size: 14px; /* Oddiy hajm */
 }
 
+
+
+    .video-container {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 20px;
+    position: relative;
+}
+
+.main-video {
+    position: relative;
+}
+
+.main-video-title {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    max-width: 80%;
+    word-wrap: break-word;
+}
+
+.thumbnail-container {
+    margin-top: 20px;
+    position: relative;
+}
+
+.thumbnail {
+    cursor: pointer;
+    width: 150px;
+    height: 100px;
+    margin: 0 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.thumbnail-title {
+    position: absolute;
+    bottom: 5px;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    text-align: center;
+    padding: 5px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
 </style>
 
 
@@ -79,6 +140,13 @@
                     </div>
                     <!-- Riht content -->
                     <div class="col-lg-4">
+                        <div class="trand-right-single d-flex">
+                            <div class="trand-right-cap">
+                                <h3><a>So'nggi Yangiliklar</a></h3>
+                            </div>
+                        </div>
+
+
                         <div class="trand-right-single d-flex">
                             <div class="trand-right-cap">
                                 <span class="color1">{{ latestnew1.category.name }}</span>
@@ -154,106 +222,116 @@
             </div>
         </div>
     </div>
-    <!-- Trending Area End -->
-
-
-
-
+<br>
+<h2 style="text-align:center">Video Yangiliklar</h2><br>
 <div class="video-container">
-        <button class="arrow arrow-left" id="prev-arrow">&#9664;</button>
-        <button class="arrow arrow-right" id="next-arrow">&#9654;</button>
-        <div class="main-video">
-            <iframe id="main-video" src="" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        </div>
-        <div class="thumbnail-container" id="thumbnail-container">
-            <!-- Thumbnail videos will be added here -->
-        </div>
-        <div class="video-info">
-            <h4 id="video-title">Select a video</h4>
-        </div>
+    <div class="main-video">
+        <iframe id="main-video" src="" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <div id="main-video-title" class="main-video-title"></div>
     </div>
+    <div class="thumbnail-container" id="thumbnail-container">
+        <!-- Thumbnail videos will be added here -->
+    </div>
+</div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            fetch('/api/videos/')
-                .then(response => response.json())
-                .then(data => {
-                    const mainVideo = document.getElementById('main-video');
-                    const thumbnailContainer = document.getElementById('thumbnail-container');
-                    const videoTitle = document.getElementById('video-title');
-                    const prevArrow = document.getElementById('prev-arrow');
-                    const nextArrow = document.getElementById('next-arrow');
+<!-- Slick Slider CSS -->
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
 
-                    let currentIndex = 0;
+<!-- jQuery kutubxonasi -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-                    function updateMainVideo(index) {
-                        if (data.length > 0) {
-                            const video = data[index];
-                            const videoId = new URL(video.link).searchParams.get('v') || video.link.split('embed/')[1];
-                            mainVideo.src = `https://www.youtube.com/embed/${videoId}`;
-                            videoTitle.textContent = video.name;
-                        }
-                    }
+<!-- Slick Slider JS -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 
-                    function updateThumbnails() {
-                        thumbnailContainer.innerHTML = ''; // Clear existing thumbnails
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        fetch('/api/videos/')
+            .then(response => response.json())
+            .then(data => {
+                const mainVideo = document.getElementById('main-video');
+                const mainVideoTitle = document.getElementById('main-video-title');
+                const thumbnailContainer = document.getElementById('thumbnail-container');
 
-                        data.forEach((video, index) => {
-                            const videoId = new URL(video.link).searchParams.get('v') || video.link.split('embed/')[1];
-                            if (videoId) {
-                                const thumbnailDiv = document.createElement('div');
-                                thumbnailDiv.className = 'thumbnail';
-                                thumbnailDiv.onclick = () => {
-                                    currentIndex = index;
-                                    updateMainVideo(currentIndex);
-                                };
+                let currentIndex = 0;
 
-                                const thumbnailImage = document.createElement('img');
-                                thumbnailImage.src = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
-
-                                const nameDiv = document.createElement('div');
-                                nameDiv.className = 'thumbnail-name';
-                                nameDiv.textContent = video.name;
-
-                                thumbnailDiv.appendChild(thumbnailImage);
-                                thumbnailDiv.appendChild(nameDiv);
-                                thumbnailContainer.appendChild(thumbnailDiv);
-                            }
-                        });
-
-                        // Highlight the current thumbnail
-                        if (thumbnailContainer.children.length > 0) {
-                            thumbnailContainer.children[currentIndex].scrollIntoView({ behavior: 'smooth', inline: 'center' });
-                        }
-                    }
-
-                    // Show the first video by default
+                function updateMainVideo(index) {
                     if (data.length > 0) {
-                        updateMainVideo(currentIndex);
-                        updateThumbnails();
+                        const video = data[index];
+                        const videoId = new URL(video.link).searchParams.get('v') || video.link.split('embed/')[1];
+                        mainVideo.src = `https://www.youtube.com/embed/${videoId}`;
+                        mainVideoTitle.textContent = video.name; // Update title
                     }
+                }
 
-                    prevArrow.onclick = () => {
-                        if (currentIndex > 0) {
-                            currentIndex--;
-                            updateMainVideo(currentIndex);
-                            thumbnailContainer.children[currentIndex].scrollIntoView({ behavior: 'smooth', inline: 'center' });
-                        }
-                    };
+                function updateThumbnails() {
+                    thumbnailContainer.innerHTML = '';
 
-                    nextArrow.onclick = () => {
-                        if (currentIndex < data.length - 1) {
-                            currentIndex++;
-                            updateMainVideo(currentIndex);
-                            thumbnailContainer.children[currentIndex].scrollIntoView({ behavior: 'smooth', inline: 'center' });
+                    data.forEach((video, index) => {
+                        const videoId = new URL(video.link).searchParams.get('v') || video.link.split('embed/')[1];
+                        if (videoId) {
+                            const thumbnailDiv = document.createElement('div');
+                            thumbnailDiv.className = 'thumbnail';
+                            thumbnailDiv.onclick = () => {
+                                currentIndex = index;
+                                updateMainVideo(currentIndex);
+                                $('.thumbnail-container').slick('slickGoTo', currentIndex);
+                            };
+
+                            const thumbnailImage = document.createElement('img');
+                            thumbnailImage.src = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
+
+                            const nameDiv = document.createElement('div');
+                            nameDiv.className = 'thumbnail-title';
+                            nameDiv.textContent = video.name;
+
+                            thumbnailDiv.appendChild(thumbnailImage);
+                            thumbnailDiv.appendChild(nameDiv);
+                            thumbnailContainer.appendChild(thumbnailDiv);
                         }
-                    };
-                })
-                .catch(error => {
-                    console.error('Error fetching videos:', error);
-                });
-        });
-    </script>
+                    });
+
+                    $('.thumbnail-container').slick({
+                        dots: true,
+                        infinite: true,
+                        speed: 300,
+                        slidesToShow: 3,
+                        slidesToScroll: 1,
+                        centerMode: true,
+                        focusOnSelect: true,
+                        responsive: [
+                            {
+                                breakpoint: 1024,
+                                settings: {
+                                    slidesToShow: 2,
+                                    slidesToScroll: 2,
+                                    infinite: true,
+                                    dots: true
+                                }
+                            },
+                            {
+                                breakpoint: 600,
+                                settings: {
+                                    slidesToShow: 1,
+                                    slidesToScroll: 1
+                                }
+                            }
+                        ]
+                    });
+
+                    $('.thumbnail-container').slick('slickGoTo', currentIndex);
+                }
+
+                if (data.length > 0) {
+                    updateMainVideo(currentIndex);
+                    updateThumbnails();
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching videos:', error);
+            });
+    });
+</script>
 
 
     </main>
